@@ -119,7 +119,9 @@ def renew_book_librarian(request, pk):
     # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={"renewal_date": proposed_renewal_date})
+        form = RenewBookForm(
+            initial={"due_back": proposed_renewal_date}
+        )  # swap renewal_date to due_back if you use ModelForm
 
     context = {
         "form": form,
@@ -132,7 +134,7 @@ def renew_book_librarian(request, pk):
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = ["first_name", "last_name", "date_of_birth", "date_of_death"]
-    initial = {"date_of_death": "2016-12-10"}
+    initial = {"date_of_death": "2020-06-11"}
     permission_required = "catalog.can_mark_returned"
 
 
