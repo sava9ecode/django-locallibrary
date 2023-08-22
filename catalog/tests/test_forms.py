@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import SimpleTestCase
 
 # Create your tests here.
 
@@ -6,7 +6,7 @@ import datetime
 from catalog.forms import RenewBookForm
 
 
-class RenewBookFormTest(TestCase):
+class RenewBookFormTest(SimpleTestCase):
     def test_renew_form_date_in_past(self):
         """Test form is invalid if renewal_date is before today."""
         date = datetime.date.today() - datetime.timedelta(days=1)
