@@ -60,7 +60,6 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books
-    # Author as a string rather than object because it hasn't been declared yet in file.
     summary = models.TextField(
         max_length=1000, help_text="Enter a brief description of the book"
     )
@@ -73,7 +72,6 @@ class Book(models.Model):
     )
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     # ManyToManyField used because a genre can contain many books and a Book can cover many genres.
-    # Genre class has already been defined so we can specify the object above.
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -102,7 +100,7 @@ class BookInstance(models.Model):
         default=uuid.uuid4,
         help_text="Unique ID for this particular book across whole library",
     )
-    book = models.ForeignKey("Book", on_delete=models.RESTRICT, null=True)
+    book = models.ForeignKey(Book, on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -123,7 +121,7 @@ class BookInstance(models.Model):
         max_length=1,
         choices=LOAN_STATUS,
         blank=True,
-        default="d",
+        default="m",
         help_text="Book availability",
     )
 
